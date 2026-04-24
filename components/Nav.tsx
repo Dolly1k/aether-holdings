@@ -33,8 +33,8 @@ export default function Nav() {
             <span className="font-medium text-lg tracking-[4px]">AETHER</span>
           </Link>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8 text-[11px] uppercase tracking-[2px] font-light">
+          {/* Desktop nav — hidden below lg (1024px) */}
+          <div className="hidden lg:flex items-center gap-8 text-[11px] uppercase tracking-[2px] font-light">
             {links.map(l => (
               <Link key={l.href} href={l.href} className="hover:text-emerald-400 transition-colors">{l.label}</Link>
             ))}
@@ -50,17 +50,17 @@ export default function Nav() {
             )}
           </div>
 
-          {/* Mobile hamburger */}
-          <button className="md:hidden flex flex-col gap-1.5 p-2" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
-            <span className={`block w-5 h-px bg-white transition-transform ${menuOpen ? 'translate-y-2 rotate-45' : ''}`}></span>
+          {/* Hamburger — shown below lg */}
+          <button className="lg:hidden flex flex-col gap-1.5 p-2" onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
+            <span className={`block w-5 h-px bg-white transition-transform origin-center ${menuOpen ? 'translate-y-[7px] rotate-45' : ''}`}></span>
             <span className={`block w-5 h-px bg-white transition-opacity ${menuOpen ? 'opacity-0' : ''}`}></span>
-            <span className={`block w-5 h-px bg-white transition-transform ${menuOpen ? '-translate-y-2 -rotate-45' : ''}`}></span>
+            <span className={`block w-5 h-px bg-white transition-transform origin-center ${menuOpen ? '-translate-y-[7px] -rotate-45' : ''}`}></span>
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile/tablet menu */}
         {menuOpen && (
-          <div className="md:hidden border-t border-white/10 bg-black/98 px-5 py-6 flex flex-col gap-5 text-[11px] uppercase tracking-[2px]">
+          <div className="lg:hidden border-t border-white/10 bg-black/98 px-5 py-6 flex flex-col gap-5 text-[11px] uppercase tracking-[2px]">
             {links.map(l => (
               <Link key={l.href} href={l.href} className="hover:text-emerald-400 transition-colors" onClick={() => setMenuOpen(false)}>{l.label}</Link>
             ))}

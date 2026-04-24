@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh *)",
+      "Bash(sshpass *)",
+      "Bash(apt-get install *)",
+      "Bash(python -c \"import paramiko; print\\('paramiko ok'\\)\")",
+      "Bash(python3 -c \"import paramiko; print\\('paramiko ok'\\)\")",
+      "Bash(pip install *)",
+      "Bash(powershell.exe *)",
+      "Read(//c/tmp/**)",
+      "Bash(npm install *)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"require\\('ssh2'\\)\")",
+      "Bash(node -e \"const {Client}=require\\('ssh2'\\);console.log\\('ok'\\)\")",
+      "Bash(node *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)"
+    ]
+  }
+}
