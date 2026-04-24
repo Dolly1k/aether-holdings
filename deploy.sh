@@ -26,16 +26,14 @@ CLOUDFLARE_CERT="/etc/ssl/certs/cloudflare-origin.pem"
 CLOUDFLARE_KEY="/etc/ssl/private/cloudflare-origin.key"
 
 # ---- Crypto Wallet Addresses (set your actual addresses here) ----
-USDT_TRC20_ADDRESS="YOUR_USDT_TRC20_ADDRESS_HERE"
-USDC_TRC20_ADDRESS="YOUR_USDC_TRC20_ADDRESS_HERE"
+# TRX_ADDRESS = single Tron address for all Tron tokens (USDT TRC20, USDC TRC20, TRX)
+# ETH_ADDRESS = single EVM address for all EVM chains (ETH, BNB, ARB — USDT/USDC/native)
+# BTC_ADDRESS = Bitcoin address
 TRX_ADDRESS="YOUR_TRX_ADDRESS_HERE"
+ETH_ADDRESS="YOUR_EVM_ADDRESS_HERE"
 BTC_ADDRESS="YOUR_BTC_ADDRESS_HERE"
 
-# ---- SMTP (ZeptoMail) ----
-SMTP_HOST="smtp.zeptomail.com"
-SMTP_PORT="587"
-SMTP_SECURE="false"
-SMTP_USER="emailapikey"
+# ---- ZeptoMail (HTTP API, port 443) ----
 SMTP_PASS="wSsVR61y/kSiC/x/mTKpLrpsmV8HB16jRkQsjFGo6H/4Fq/K9sc9xEzLBAGuFaIcGGA9EjsS9e4qm0pV1WBfjYgtwlhUDCiF9mqRe1U4J3x17qnvhDzPXWVckBOAL4sNxgRommJpEckr+g=="
 SMTP_FROM_EMAIL="noreply@aetherholdings.org"
 
@@ -109,21 +107,16 @@ cat > "$ENV_FILE" <<EOF
 PORT=3000
 NEXT_PUBLIC_BASE_URL=https://$DOMAIN
 
-# Crypto wallet addresses
-USDT_TRC20_ADDRESS=$USDT_TRC20_ADDRESS
-USDC_TRC20_ADDRESS=$USDC_TRC20_ADDRESS
+# Crypto wallet addresses (server-side, used by verify API)
 TRX_ADDRESS=$TRX_ADDRESS
+ETH_ADDRESS=$ETH_ADDRESS
 BTC_ADDRESS=$BTC_ADDRESS
-NEXT_PUBLIC_USDT_ADDRESS=$USDT_TRC20_ADDRESS
-NEXT_PUBLIC_USDC_ADDRESS=$USDC_TRC20_ADDRESS
+# Client-side (embedded at build time, shown in DepositModal)
 NEXT_PUBLIC_TRX_ADDRESS=$TRX_ADDRESS
+NEXT_PUBLIC_ETH_ADDRESS=$ETH_ADDRESS
 NEXT_PUBLIC_BTC_ADDRESS=$BTC_ADDRESS
 
-# SMTP (ZeptoMail)
-SMTP_HOST=$SMTP_HOST
-SMTP_PORT=$SMTP_PORT
-SMTP_SECURE=$SMTP_SECURE
-SMTP_USER=$SMTP_USER
+# ZeptoMail (HTTP API key and sender)
 SMTP_PASS=$SMTP_PASS
 SMTP_FROM_EMAIL=$SMTP_FROM_EMAIL
 SMTP_FROM=Aether <$SMTP_FROM_EMAIL>
