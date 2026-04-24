@@ -16,6 +16,9 @@ APP_DIR="/opt/aether-holdings"
 BITCART_DIR="/opt/bitcart"
 LETSENCRYPT_EMAIL="noreply@aetherholdings.org"
 
+# ---- Optional Features (set to "false" to disable) ----
+INSTALL_BITCART="false"  # Bitcart requires ~500MB+ RAM - disable on small servers
+
 # ---- Cloudflare Origin Certificate (optional - if using Cloudflare proxy) ----
 # Set to "true" to use Cloudflare Origin Certificate instead of Let's Encrypt
 USE_CLOUDFLARE_CERT="true"
@@ -150,21 +153,29 @@ else
 fi
 
 # ================================================================
-#  5. Bitcart (Docker)
+#  5. Bitcart (Docker) - OPTIONAL
 # ================================================================
-if [ ! -d "$BITCART_DIR/.git" ]; then
-  log "Cloning Bitcart..."
-  git clone https://github.com/bitcart/bitcart-docker.git "$BITCART_DIR"
+if [ "$INSTALL_BITCART" = "true" ]; then
+  log "Installing Bitcart..."
+  if [ ! -d "$BITCART_DIR/.git" ]; then
+    log "Cloning Bitcart..."
+    git clone https://github.com/bitcart/bitcart-docker.git "$BITCART_DIR"
+  fi
+  cd "$BITCART_DIR"
+
+  # Set environment variables for setup.sh
+  export BITCART_HOST=$BITCART_SUBDOMAIN
+  export BITCART_ADMIN_TOKEN=$BITCART_ADMIN_TOKEN
+  export BITCART_REVERSEPROXY=nginx
+
+  log "Running Bitcart setup..."
+  ./setup.sh
+  success "Bitcart installed"
+else
+  log "Skipping Bitcart installation (INSTALL_BITCART=false)"
 fi
-cd "$BITCART_DIR"
 
-# Set environment variables for setup.sh
-export BITCART_HOST=$BITCART_SUBDOMAIN
-export BITCART_ADMIN_TOKEN=$BITCART_ADMIN_TOKEN
-export BITCART_REVERSEPROXY=nginx
-
-log "Running Bitcart setup..."
-./setup.sh
+cd "$APP_DIR"
 
 # ================================================================
 #  6. SSL (certbot or Cloudflare Origin) - MUST be before nginx config
@@ -280,7 +291,8 @@ server {
 }
 EOF
 
-  cat > /etc/nginx/sites-available/bitcart <<EOF
+  if [ "$INSTALL_BITCART" = "true" ]; then
+    cat > /etc/nginx/sites-available/bitcart <<EOF
 server {
     listen 80;
     server_name $BITCART_SUBDOMAIN;
@@ -305,6 +317,8 @@ server {
     }
 }
 EOF
+    ln -sf /etc/nginx/sites-available/bitcart /etc/nginx/sites-enabled/bitcart
+  fi
 else
   cat > /etc/nginx/sites-available/aether <<EOF
 server {
@@ -323,7 +337,8 @@ server {
 }
 EOF
 
-  cat > /etc/nginx/sites-available/bitcart <<EOF
+  if [ "$INSTALL_BITCART" = "true" ]; then
+    cat > /etc/nginx/sites-available/bitcart <<EOF
 server {
     listen 80;
     server_name $BITCART_SUBDOMAIN;
@@ -336,10 +351,11 @@ server {
     }
 }
 EOF
+    ln -sf /etc/nginx/sites-available/bitcart /etc/nginx/sites-enabled/bitcart
+  fi
 fi
 
 ln -sf /etc/nginx/sites-available/aether /etc/nginx/sites-enabled/aether
-ln -sf /etc/nginx/sites-available/bitcart /etc/nginx/sites-enabled/bitcart
 rm -f /etc/nginx/sites-enabled/default
 nginx -t && systemctl reload nginx
 success "Nginx reloaded"
