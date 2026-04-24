@@ -126,7 +126,7 @@ Type=simple
 User=root
 WorkingDirectory=$APP_DIR
 EnvironmentFile=$APP_DIR/.env.local
-ExecStart=$NEXT_BIN start -p 3000
+ExecStart=$NEXT_BIN start -p 3000 -H 0.0.0.0
 Restart=on-failure
 RestartSec=5
 
