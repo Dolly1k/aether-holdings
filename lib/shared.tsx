@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 import { useRouter } from 'next/navigation';
 
 export interface Tier {
@@ -254,25 +254,46 @@ export function useAuth() {
   return { isLoggedIn, userEmail, login, logout };
 }
 
-export function useLanguage() {
+type LangCtx = {
+  language: Lang;
+  toggle: () => void;
+  t: (k: keyof typeof translations['en']) => string;
+};
+
+const LanguageContext = createContext<LangCtx>({
+  language: 'en',
+  toggle: () => {},
+  t: (k) => translations['en'][k],
+});
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Lang>('en');
 
   useEffect(() => {
     const stored = localStorage.getItem('aether_lang') as Lang;
-    if (stored) setLanguage(stored);
-    else {
+    if (stored && (stored === 'en' || stored === 'ru')) {
+      setLanguage(stored);
+    } else {
       const lang = navigator.language.toLowerCase();
       if (lang.includes('ru')) setLanguage('ru');
     }
   }, []);
 
   const toggle = () => {
-    const next = language === 'en' ? 'ru' : 'en';
+    const next: Lang = language === 'en' ? 'ru' : 'en';
     setLanguage(next);
     localStorage.setItem('aether_lang', next);
   };
 
-  return { language, toggle, t: (k: keyof typeof translations['en']) => translations[language][k] };
+  return (
+    <LanguageContext.Provider value={{ language, toggle, t: (k) => translations[language][k] }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage() {
+  return useContext(LanguageContext);
 }
 
 export interface CurrencyInfo {
