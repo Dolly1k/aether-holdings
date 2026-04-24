@@ -86,6 +86,11 @@ log "Building app..."
 npm run build
 success "Build complete"
 
+# Initialize database
+log "Initializing database..."
+node init-db.js
+success "Database initialized"
+
 # ================================================================
 #  3. Write .env.local (idempotent)
 # ================================================================
