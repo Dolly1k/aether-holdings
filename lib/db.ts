@@ -12,8 +12,9 @@ export const users = sqliteTable('users', {
   code: text('code'),
   codeExpires: integer('code_expires'),
   balance: integer('balance').default(0),
-  tier: text('tier').default('A'),
-  lastYield: integer('last_yield').default(0),
+  tier: text('tier'),
+  depositDate: integer('deposit_date'),
+  lastYield: integer('last_yield'),
   lastInvoiceId: text('last_invoice_id'),
   createdAt: integer('created_at').default(Date.now()),
 });

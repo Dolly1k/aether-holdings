@@ -160,8 +160,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Payment not found. Wait a moment and try again.' });
     }
 
+    const now = Date.now();
     await db.update(users)
-      .set({ tier, lastYield: Date.now() })
+      .set({ tier, depositDate: now, lastYield: now })
       .where(eq(users.email, email.toLowerCase()));
 
     return NextResponse.json({ success: true });
