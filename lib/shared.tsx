@@ -302,6 +302,8 @@ export interface CurrencyInfo {
   rate: number;
 }
 
+const USD: CurrencyInfo = { symbol: '$', code: 'USD', rate: 1 };
+
 const CURRENCY_MAP: Record<string, CurrencyInfo> = {
   NG: { symbol: '₦', code: 'NGN', rate: 1600 },
   RU: { symbol: '₽', code: 'RUB', rate: 92 },
@@ -315,23 +317,57 @@ const CURRENCY_MAP: Record<string, CurrencyInfo> = {
   BR: { symbol: 'R$', code: 'BRL', rate: 5 },
 };
 
-export function useCurrency() {
-  const [info, setInfo] = useState<CurrencyInfo>({ symbol: '$', code: 'USD', rate: 1 });
+type CurrencyCtx = {
+  local: CurrencyInfo;
+  showUSD: boolean;
+  toggleCurrency: () => void;
+  fmt: (usd: number) => string;
+};
+
+const CurrencyContext = createContext<CurrencyCtx>({
+  local: USD,
+  showUSD: false,
+  toggleCurrency: () => {},
+  fmt: (usd) => `$${usd.toLocaleString()}`,
+});
+
+export function CurrencyProvider({ children }: { children: React.ReactNode }) {
+  const [local, setLocal] = useState<CurrencyInfo>(USD);
+  const [showUSD, setShowUSD] = useState(false);
 
   useEffect(() => {
     fetch('/api/geo')
       .then(r => r.json())
       .then(({ country }) => {
         const match = CURRENCY_MAP[country];
-        if (match) setInfo(match);
+        if (match) setLocal(match);
       })
       .catch(() => {});
+    const stored = localStorage.getItem('aether_currency');
+    if (stored === 'usd') setShowUSD(true);
   }, []);
 
-  const fmt = (usd: number) => {
-    const local = info.rate === 1 ? usd : Math.round(usd * info.rate);
-    return `${info.symbol}${local.toLocaleString()}`;
+  const toggleCurrency = () => {
+    setShowUSD(v => {
+      const next = !v;
+      localStorage.setItem('aether_currency', next ? 'usd' : 'local');
+      return next;
+    });
   };
 
-  return { currency: info.symbol, currencyCode: info.code, usdToLocal: (usd: number) => Math.round(usd * info.rate), fmt };
+  const active = showUSD ? USD : local;
+  const fmt = (usd: number) => {
+    const amount = active.rate === 1 ? usd : Math.round(usd * active.rate);
+    return `${active.symbol}${amount.toLocaleString()}`;
+  };
+
+  return (
+    <CurrencyContext.Provider value={{ local, showUSD, toggleCurrency, fmt }}>
+      {children}
+    </CurrencyContext.Provider>
+  );
+}
+
+export function useCurrency() {
+  return useContext(CurrencyContext);
 }

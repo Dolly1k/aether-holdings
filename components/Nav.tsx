@@ -2,14 +2,18 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useAuth, useLanguage } from '@/lib/shared';
+import { useAuth, useLanguage, useCurrency } from '@/lib/shared';
 import LoginModal from './LoginModal';
 
 export default function Nav() {
   const { isLoggedIn, logout } = useAuth();
   const { language, toggle, t } = useLanguage();
+  const { local, showUSD, toggleCurrency } = useCurrency();
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const isLocalCurrency = local.code !== 'USD';
+  const currencyLabel = showUSD ? local.code : 'USD';
 
   const links = isLoggedIn
     ? [
@@ -38,6 +42,11 @@ export default function Nav() {
             {links.map(l => (
               <Link key={l.href} href={l.href} className="hover:text-emerald-400 transition-colors">{l.label}</Link>
             ))}
+            {isLocalCurrency && (
+              <button onClick={toggleCurrency} className="border border-white/10 px-2.5 py-1 text-[9px] tracking-[2px] text-white/40 hover:text-white/70 hover:border-white/30 transition-colors">
+                {currencyLabel}
+              </button>
+            )}
             <button onClick={toggle} className="border border-white/20 px-3 py-1.5 text-[10px] hover:border-emerald-500 transition-colors">
               {language === 'en' ? 'РУС' : 'ENG'}
             </button>
@@ -65,6 +74,11 @@ export default function Nav() {
               <Link key={l.href} href={l.href} className="hover:text-emerald-400 transition-colors" onClick={() => setMenuOpen(false)}>{l.label}</Link>
             ))}
             <div className="flex items-center gap-4 pt-2 border-t border-white/10">
+              {isLocalCurrency && (
+                <button onClick={toggleCurrency} className="border border-white/10 px-2.5 py-1 text-[9px] tracking-[2px] text-white/40 hover:text-white/70 hover:border-white/30 transition-colors">
+                  {currencyLabel}
+                </button>
+              )}
               <button onClick={toggle} className="border border-white/20 px-3 py-1.5 text-[10px] hover:border-emerald-500 transition-colors">
                 {language === 'en' ? 'РУС' : 'ENG'}
               </button>

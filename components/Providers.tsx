@@ -1,7 +1,11 @@
 'use client';
 
-import { LanguageProvider } from '@/lib/shared';
+import { LanguageProvider, CurrencyProvider } from '@/lib/shared';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-  return <LanguageProvider>{children}</LanguageProvider>;
+  return (
+    <LanguageProvider>
+      <CurrencyProvider>{children}</CurrencyProvider>
+    </LanguageProvider>
+  );
 }
