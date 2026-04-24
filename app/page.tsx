@@ -35,22 +35,22 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#0a3d2e_0%,transparent_40%)] opacity-30"></div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000')] bg-cover bg-center opacity-[0.04]"></div>
 
-        <div className="max-w-6xl mx-auto px-10 text-center relative z-10">
-          <div className="inline-flex items-center gap-3 border border-emerald-900/60 text-emerald-300 text-[10px] tracking-[4px] px-6 py-2 mb-12">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10 text-center relative z-10">
+          <div className="inline-flex items-center gap-3 border border-emerald-900/60 text-emerald-300 text-[10px] tracking-[4px] px-4 sm:px-6 py-2 mb-10 sm:mb-12">
             <span className="w-1 h-1 rounded-full bg-emerald-400"></span>
             EST. 2019 • {t('privateByDesign')}
             <span className="w-1 h-1 rounded-full bg-emerald-400"></span>
           </div>
 
-          <h1 className="text-[96px] leading-[0.9] font-medium tracking-[-0.04em] mb-8 text-white">
+          <h1 className="text-[52px] sm:text-[72px] md:text-[96px] leading-[0.9] font-medium tracking-[-0.04em] mb-6 sm:mb-8 text-white">
             AETHER<br /><span className="text-emerald-500">HOLDINGS</span>
           </h1>
 
-          <p className="max-w-xl mx-auto text-base text-white/60 mb-14 leading-relaxed">
+          <p className="max-w-xl mx-auto text-base text-white/60 mb-10 sm:mb-14 leading-relaxed">
             {translations[language].heroSubtitle}
           </p>
 
-          <div className="flex gap-3 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button onClick={handleDashboard} className="bg-emerald-900 hover:bg-emerald-700 px-10 py-4 text-[11px] tracking-[3px] transition-all border border-emerald-800">
               {t('accessDashboard')}
             </button>
@@ -66,19 +66,19 @@ export default function Home() {
       </section>
 
       {/* INVESTMENTS */}
-      <section id="investments" className="py-32 border-t border-white/10 relative">
-        <div className="max-w-6xl mx-auto px-10">
-          <div className="text-center mb-24">
+      <section id="investments" className="py-20 sm:py-32 border-t border-white/10 relative">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10">
+          <div className="text-center mb-16 sm:mb-24">
             <p className="text-emerald-400 text-[10px] tracking-[3px] mb-3">INVESTMENT AND SECURITIES ACT (CAP. 134) S.45(1)(a)</p>
-            <h2 className="text-5xl font-light tracking-tight">{t('gradesTitle')}</h2>
+            <h2 className="text-4xl sm:text-5xl font-light tracking-tight">{t('gradesTitle')}</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-px bg-white/10">
             {tiers.map(tier => (
-              <div key={tier.grade} className="group p-10 bg-[#050505] hover:bg-zinc-950 transition-all">
-                <div className="text-[10px] tracking-[3px] text-white/40 mb-8">GRADE {tier.grade}</div>
-                <div className="text-5xl font-light tracking-tight mb-2">{fmt(tier.amountUSD)}</div>
-                <div className="text-emerald-400 text-2xl font-light mb-10">
+              <div key={tier.grade} className="group p-6 sm:p-10 bg-[#050505] hover:bg-zinc-950 transition-all">
+                <div className="text-[10px] tracking-[3px] text-white/40 mb-6 sm:mb-8">GRADE {tier.grade}</div>
+                <div className="text-4xl sm:text-5xl font-light tracking-tight mb-2">{fmt(tier.amountUSD)}</div>
+                <div className="text-emerald-400 text-xl sm:text-2xl font-light mb-8 sm:mb-10">
                   +{fmt(tier.monthlyCapUSD)} <span className="text-[10px] text-white/40 tracking-widest uppercase">{t('monthlyCap')}</span>
                 </div>
                 <div className="text-xs text-white/60 leading-loose border-t border-white/10 pt-6">
@@ -97,11 +97,11 @@ export default function Home() {
       </section>
 
       {/* MANDATE */}
-      <section id="mandate" className="py-32 border-t border-white/10 relative bg-zinc-950/30">
-        <div className="max-w-6xl mx-auto px-10 grid md:grid-cols-12 gap-16 items-center">
+      <section id="mandate" className="py-20 sm:py-32 border-t border-white/10 relative bg-zinc-950/30">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10 grid md:grid-cols-12 gap-10 sm:gap-16 items-center">
           <div className="md:col-span-5">
             <div className="text-emerald-400 text-[10px] tracking-[3px] mb-4">GLOBAL MANDATE</div>
-            <h3 className="text-5xl leading-[1.05] font-light tracking-tight mb-6">15,000+<br />investors<br />since 2019</h3>
+            <h3 className="text-4xl sm:text-5xl leading-[1.05] font-light tracking-tight mb-6">15,000+<br />investors<br />since 2019</h3>
             <p className="text-sm text-white/60 max-w-md leading-relaxed">
               Accredited capital from Nigeria, Ghana, Senegal, Ivory Coast, Mali, Burkina Faso, Togo, Benin, Russia, China, UAE, United Kingdom, Germany, Brazil and South Africa.
             </p>

@@ -1,32 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db, users } from '@/lib/db';
 import { eq } from 'drizzle-orm';
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.gmail.com',
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: process.env.SMTP_SECURE === 'true',
-  auth: {
-    user: process.env.SMTP_USER || '',
-    pass: process.env.SMTP_PASS || '',
-  },
-});
 
 async function sendCodeEmail(email: string, code: string) {
+  const apiKey = process.env.SMTP_PASS || '';
+  const fromEmail = process.env.SMTP_FROM_EMAIL || 'noreply@aetherholdings.org';
+
   try {
-    await transporter.sendMail({
-      from: process.env.SMTP_FROM || 'Aether <noreply@aether.holdings>',
-      to: email,
-      subject: 'Aether Verification Code',
-      text: `Your verification code is: ${code}\n\nIt expires in 15 minutes.`,
+    const res = await fetch('https://api.zeptomail.com/v1.1/email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Zoho-enczapikey ${apiKey}`,
+      },
+      body: JSON.stringify({
+        from: { address: fromEmail, name: 'Aether' },
+        to: [{ email_address: { address: email } }],
+        subject: 'Aether Verification Code',
+        textbody: `Your verification code is: ${code}\n\nIt expires in 15 minutes.`,
+      }),
     });
+
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(err);
+    }
     return true;
-  } catch {
-    // Fallback to console
+  } catch (e) {
     console.log(`\n=== VERIFICATION CODE FOR ${email} ===`);
     console.log(code);
     console.log('=====================================\n');
+    console.error('[email]', e);
     return true;
   }
 }

@@ -24,16 +24,16 @@ export default function Contact() {
     <div className="min-h-screen bg-[#050505] text-white font-sans">
       <Nav />
 
-      <section className="pt-40 pb-20">
-        <div className="max-w-4xl mx-auto px-10">
+      <section className="pt-32 sm:pt-40 pb-20">
+        <div className="max-w-4xl mx-auto px-5 sm:px-10">
           <div className="text-emerald-400 text-[10px] tracking-[3px] mb-6">SECURE CHANNEL</div>
-          <h1 className="text-6xl font-light tracking-tight mb-6">{t('contactTitle') || 'Contact'}</h1>
-          <p className="text-white/50 text-sm mb-16 max-w-lg">
+          <h1 className="text-4xl sm:text-6xl font-light tracking-tight mb-6">{t('contactTitle') || 'Contact'}</h1>
+          <p className="text-white/50 text-sm mb-12 sm:mb-16 max-w-lg">
             All communication is confidential. For board-level inquiries or verification, use the encrypted form below.
           </p>
 
-          <div className="grid md:grid-cols-5 gap-12">
-            <div className="md:col-span-2 space-y-10">
+          <div className="grid md:grid-cols-5 gap-10 sm:gap-12">
+            <div className="md:col-span-2 space-y-8 sm:space-y-10">
               <div>
                 <div className="text-[10px] tracking-[3px] text-white/40 mb-2">{t('secureEmail') || 'SECURE EMAIL'}</div>
                 <div className="text-sm font-mono text-emerald-400">board@aether.holdings</div>
@@ -55,7 +55,7 @@ export default function Contact() {
             </div>
 
             <form onSubmit={handleSubmit} className="md:col-span-3 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input
                   required
                   placeholder="Full name"

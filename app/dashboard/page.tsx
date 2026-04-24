@@ -48,45 +48,45 @@ export default function Dashboard() {
     <div className="min-h-screen bg-[#050505] text-white font-sans">
       <Nav />
 
-      <div className="pt-28 pb-20">
-        <div className="max-w-6xl mx-auto px-10">
+      <div className="pt-24 sm:pt-28 pb-20">
+        <div className="max-w-6xl mx-auto px-5 sm:px-10">
           {/* Header */}
-          <div className="flex justify-between items-end mb-14 pb-8 border-b border-white/10">
+          <div className="flex justify-between items-start sm:items-end mb-10 sm:mb-14 pb-6 sm:pb-8 border-b border-white/10">
             <div>
               <div className="text-[10px] tracking-[3px] text-emerald-400 mb-2">{t('privateByDesign')} • {t('needToKnow')}</div>
-              <h1 className="text-4xl font-light tracking-tight">Board Dashboard</h1>
-              <div className="text-[11px] text-white/40 mt-2">{t('loggedInAs')}: <span className="text-white/70 font-mono">{userEmail}</span></div>
+              <h1 className="text-2xl sm:text-4xl font-light tracking-tight">Board Dashboard</h1>
+              <div className="text-[11px] text-white/40 mt-2">{t('loggedInAs')}: <span className="text-white/70 font-mono break-all">{userEmail}</span></div>
             </div>
-            <div className="text-right text-[10px] tracking-[3px] text-white/30">
+            <div className="text-right text-[10px] tracking-[3px] text-white/30 shrink-0 ml-4">
               GRADE {tier.grade}<br />
               <span className="text-emerald-400">ACTIVE</span>
             </div>
           </div>
 
           {/* Balance grid */}
-          <div className="grid md:grid-cols-3 gap-px bg-white/10 mb-16">
-            <div className="p-10 bg-[#050505]">
-              <div className="text-[10px] tracking-[3px] text-white/40 mb-4">{t('balance')}</div>
-              <div className="text-5xl font-light text-emerald-400 tabular-nums">{fmt(balance)}</div>
+          <div className="grid md:grid-cols-3 gap-px bg-white/10 mb-10 sm:mb-16">
+            <div className="p-6 sm:p-10 bg-[#050505]">
+              <div className="text-[10px] tracking-[3px] text-white/40 mb-3 sm:mb-4">{t('balance')}</div>
+              <div className="text-4xl sm:text-5xl font-light text-emerald-400 tabular-nums">{fmt(balance)}</div>
               <div className="text-[10px] tracking-widest text-white/30 mt-2">USD BASE</div>
             </div>
-            <div className="p-10 bg-[#050505]">
-              <div className="text-[10px] tracking-[3px] text-white/40 mb-4">{t('todayYield').toUpperCase()}</div>
-              <div className="text-5xl font-light tabular-nums">+{fmt(tier.dailyYieldUSD)}</div>
+            <div className="p-6 sm:p-10 bg-[#050505]">
+              <div className="text-[10px] tracking-[3px] text-white/40 mb-3 sm:mb-4">{t('todayYield').toUpperCase()}</div>
+              <div className="text-4xl sm:text-5xl font-light tabular-nums">+{fmt(tier.dailyYieldUSD)}</div>
               <div className="text-[10px] tracking-widest text-emerald-400 mt-2">CREDITED 00:00 UTC</div>
             </div>
-            <div className="p-10 bg-[#050505]">
-              <div className="text-[10px] tracking-[3px] text-white/40 mb-4">MONTHLY CAP</div>
-              <div className="text-5xl font-light tabular-nums">{fmt(tier.monthlyCapUSD)}</div>
+            <div className="p-6 sm:p-10 bg-[#050505]">
+              <div className="text-[10px] tracking-[3px] text-white/40 mb-3 sm:mb-4">MONTHLY CAP</div>
+              <div className="text-4xl sm:text-5xl font-light tabular-nums">{fmt(tier.monthlyCapUSD)}</div>
               <div className="text-[10px] tracking-widest text-white/30 mt-2">GRADE {tier.grade}</div>
             </div>
           </div>
 
           {/* Actions */}
-          <div className="grid md:grid-cols-2 gap-4 mb-16">
+          <div className="grid md:grid-cols-2 gap-4 mb-10 sm:mb-16">
             <button
               onClick={() => setShowDeposit(true)}
-              className="p-8 bg-emerald-900 hover:bg-emerald-700 transition-colors text-left"
+              className="p-6 sm:p-8 bg-emerald-900 hover:bg-emerald-700 transition-colors text-left"
             >
               <div className="text-[10px] tracking-[3px] text-emerald-300 mb-2">ACTION</div>
               <div className="text-xl font-light">{t('deposit')}</div>
@@ -95,7 +95,7 @@ export default function Dashboard() {
 
             <button
               onClick={() => setShowWithdraw(true)}
-              className="p-8 border border-white/10 hover:border-white/30 transition-colors text-left"
+              className="p-6 sm:p-8 border border-white/10 hover:border-white/30 transition-colors text-left"
             >
               <div className="text-[10px] tracking-[3px] text-white/40 mb-2">ACTION</div>
               <div className="text-xl font-light">{t('withdraw')}</div>
